@@ -20,14 +20,14 @@ function myDie($txt){
 if ($mysqli->connect_error) return myDie("Error: Connection failed: " . $mysqli->connect_error);
 
 
-if (empty ($_GET["Secret"])) return myDie("Error: Secret should note be empty ");
-$secret=$mysqli->real_escape_string($_GET["Secret"]);
+if (empty ($_GET["secret"])) return myDie("Error: Secret should note be empty ");
+$secret=$mysqli->real_escape_string($_GET["secret"]);
 	
-$result = $mysqli->query("SELECT * FROM Voters where Secret='".$secret."'");
+$result = $mysqli->query("SELECT * FROM Votes where Secret='".$secret."'");
 if (!$result || $result->num_rows == 0) return myDie("Error: Your secret token is invalid");
 $voteid=$result->fetch_assoc()['ID'];
 
-$result = $mysqli->query("SELECT * FROM Voters as v,VoteDetails as d,Candidates as c where v.ID=d.VoteID and c.ID=d.candidateID and v.Secret='".$secret."' order by d.Preference" );
+$result = $mysqli->query("SELECT * FROM Votes as v,VoteDetails as d,Candidates as c where v.ID=d.VoteID and c.ID=d.candidateID and v.Secret='".$secret."' order by d.Preference" );
 if (!$result||$result->num_rows == 0) return myDie("Error: No Vote registered.");
 
 
