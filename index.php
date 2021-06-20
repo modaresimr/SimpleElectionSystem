@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $servername = $_ENV["SQL_HOST"];
 $username = $_ENV["SQL_USERNAME"];
 $password = $_ENV["SQL_PASSWORD"];
@@ -39,8 +43,9 @@ function generateRandomString($length = 20) {
 // Check connection
 if ($mysqli->connect_error) return myDie("Error: Connection failed: " . $mysqli->connect_error);
 
-$voteKey= $mysqli->real_escape_string($_GET["Key"]);
-if (empty ($voteKey)) return myDie("Error: Key should note be empty ");
+
+if (empty ($_GET["Key"])) return myDie("Error: Key should note be empty ");
+$voteKey=$mysqli->real_escape_string($_GET["Key"]);
 	
 $result = $mysqli->query("SELECT * FROM Voters where VoteKey=".$voteKey);
 if ($result->num_rows == 0) return myDie("Error: Your vote token is invalid");
