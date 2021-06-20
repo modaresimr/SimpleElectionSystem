@@ -69,17 +69,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			throw new Exception('Error.');
 
 		$voteid=$mysqli->insert_id;
-		$sql = "";
-		foreach($votes as $k => $v) {
-			$sql .= "INSERT INTO VoteDetails (VoteId, CandidateId, Preference) VALUES (". $voteid.", ".$v.", ".$k .");";
-		}
-		if ($mysqli->multi_query($sql) !== TRUE) 
+		$sql = "INSERT INTO VoteDetails (VoteId, CandidateId, Preference) VALUES ";
+        $sql .= implode(',',array_map(function ($k,$v) { global $voteid; return "(". $voteid.", ".$v.", ".($k+1) .")"; }, array_keys($votes), $votes));
+        $sql .=";";
+		$result=$mysqli->query($sql);
+		var_dump($result);
+		if ($result !== TRUE) 
 			throw new Exception('Error in voting.');
-		if(!$mysqli->query("UPDATE Voters set Done=2 where Done=1 and VoterKey='".$VoterKey."'")!==TRUE || $mysqli->affected_rows!=1)
-			throw new Exception('Voting Error.');
-		$mysqli->commit();
+		
+		if(!$mysqli->commit())
+			throw new Exception($mysqli->error);
 		unlockVoter($voterKey);
-		return myDie("Your votes is recorded! To verify your choises, you can use your secret anynomous code:". $secret_code);
+		return myDie("Your votes is recorded! To verify your choises, you can use your secret anynomous code: ". $secret_code);
 	} catch (exception $exception) {
 		$mysqli->rollback();
 		unlockVoter($voterKey);

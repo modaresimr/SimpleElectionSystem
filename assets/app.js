@@ -9,12 +9,12 @@ new Sortable(list, {
 
 function submitVotes(){
 	var childs=list.children;
-	var res="";
+	var res=[];
 	for (var i = 0; i<childs.length;i++){
 		var cid=childs[i].getAttribute('candidateId');
-		res+=cid+",";
+		res.push(cid);
 	}
 	console.log(res);
-	document.getElementById('votes').value=res;
+	document.getElementById('votes').value=res.join();
 	document.getElementById('elecform').submit();
 }
