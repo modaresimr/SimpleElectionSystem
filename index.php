@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		if(!$mysqli->commit())
 			throw new Exception($mysqli->error);
 		unlockVoter($voterKey);
-		return myDie("Your votes is recorded! To verify your choices, you can use this secret code: <a href='verify.php?secret=". $secret_code . "'>".$secret_code."</a>");
+		return myDie("Your votes is recorded! To verify your choices and check if your vote is counted, you can use this secret code: <a href='verify.php?secret=". $secret_code . "'>".$secret_code."</a>");
 	} catch (exception $exception) {
 		$mysqli->rollback();
 		unlockVoter($voterKey);
