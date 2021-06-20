@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql .= implode(',',array_map(function ($k,$v) { global $voteid; return "(". $voteid.", ".$v.", ".($k+1) .")"; }, array_keys($votes), $votes));
         $sql .=";";
 		$result=$mysqli->query($sql);
-		var_dump($result);
+		
 		if ($result !== TRUE) 
 			throw new Exception('Error in voting.');
 		
@@ -138,6 +138,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<script src="assets/Sortable.js"></script>
 
 
-	<script src="assets/app.js"></script>
+	<script src="assets/app.js?v1"></script>
 </body>
 </html>
