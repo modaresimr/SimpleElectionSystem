@@ -21,7 +21,7 @@ function lockVoter($id){
 	$memcache = new Memcached;
 	$memcache->addServer('localhost', 11211);
 	try{
-		$memcache->add("voter:" . $id, "1",0,30);//thread safe
+		$memcache->add("voter:" . $id, "1",30);//thread safe
 		return true;
 	}catch(Exception $e){
 		return false;
@@ -60,10 +60,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$votes = array_map(function($v){ return (int) trim($v, "'"); }, explode(",", $_POST['votes']));
 	$secret_code=generateRandomString();
 	if(!lockVoter($voterKey)) return myDie("Another request is in processing! please wait for 30 seconds and retry!");
-
+	mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 	$mysqli->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
 	try{
-		if($mysqli->query("UPDATE Voter set Done=1 where Done=0 and VoterKey='".$voterKey."'")!==TRUE || $mysqli->affected_rows!=1)
+		if($mysqli->query("UPDATE Voters set Done=1 where Done=0 and VoterKey='".$voterKey."'")!==TRUE || $mysqli->affected_rows!=1)
 			throw new Exception('Voted.');
 		if($mysqli->query("INSERT INTO Votes (date,secret) VALUES('" .date('Y-m-d H:i:s'). "','".$secret_code."')")!==TRUE)
 			throw new Exception('Error.');
@@ -71,11 +71,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$voteid=$mysqli->insert_id;
 		$sql = "";
 		foreach($votes as $k => $v) {
-			$sql .= "INSERT INTO VoteDetails (VoteId, CandidateId, Preference) VALUES (". $voteid.", ".$voter.", ".$k .");";
+			$sql .= "INSERT INTO VoteDetails (VoteId, CandidateId, Preference) VALUES (". $voteid.", ".$v.", ".$k .");";
 		}
-		if ($conn->multi_query($sql) !== TRUE) 
+		if ($mysqli->multi_query($sql) !== TRUE) 
 			throw new Exception('Error in voting.');
-		if(!$mysqli->query("UPDATE Voter set Done=2 where Done=1 and VoterKey='".$voter."'")!==TRUE || $mysqli->affected_rows!=1)
+		if(!$mysqli->query("UPDATE Voters set Done=2 where Done=1 and VoterKey='".$VoterKey."'")!==TRUE || $mysqli->affected_rows!=1)
 			throw new Exception('Voting Error.');
 		$mysqli->commit();
 		unlockVoter($voterKey);

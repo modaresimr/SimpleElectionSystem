@@ -15,6 +15,6 @@ function submitVotes(){
 		res+=cid+",";
 	}
 	console.log(res);
-	document.getElementById('election-list').value=res;
+	document.getElementById('votes').value=res;
 	document.getElementById('elecform').submit();
 }
