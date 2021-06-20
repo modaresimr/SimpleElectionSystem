@@ -45,13 +45,13 @@ if ($mysqli->connect_error) return myDie("Error: Connection failed: " . $mysqli-
 
 
 if (empty ($_GET["Key"])) return myDie("Error: Key should note be empty ");
-$voteKey=$mysqli->real_escape_string($_GET["Key"]);
+$voterKey=$mysqli->real_escape_string($_GET["Key"]);
 	
-$result = $mysqli->query("SELECT * FROM Voters where VoteKey='".$voteKey."'");
+$result = $mysqli->query("SELECT * FROM Voters where Key='".$voterKey."'");
 if (!$result || $result->num_rows == 0) return myDie("Error: Your vote token is invalid");
-$voter=$result->fetch_assoc()["ID"];
 
-$result = $mysqli->query("SELECT * FROM Voters where Voted=1 and ID=". $voter );
+
+$result = $mysqli->query("SELECT * FROM Voters where Voted=1 and Key='". $voterKey ."'" );
 if (!$result||$result->num_rows == 0) return myDie("Error: You have voted.");
 
 
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	$mysqli->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
 	try{
-		if(!$mysqli->query("UPDATE Candidate set Voted=1 where Voted=0 and Voter=".$voter)!==TRUE || $mysqli->affected_rows!=1)
+		if(!$mysqli->query("UPDATE Voter set Voted=1 where Voted=0 and Key='".$voter."'")!==TRUE || $mysqli->affected_rows!=1)
 			throw new Exception('Voted.');
 		if($mysqli->query("INSERT INTO Votes (date,secret) VALUES('" .date('Y-m-d H:i:s'). "','".$secret_code."')")!==TRUE)
 			throw new Exception('Error.');
@@ -126,7 +126,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		</div>
 		<hr />
 		<div class="row">
-	<div class="btn btn-primary" onclick="submitVotes()">Submit Your Vote</div>
+		
+		<div class="btn btn-primary" onclick="submitVotes()">Submit Your Vote</div>
+		<form id="elecform" method="post">
+			  <input type="hidden" name="votes" id="votes"/>
+		</form>
 	</div>
 	<!-- Latest Sortable -->
 	<script src="assets/Sortable.js"></script>

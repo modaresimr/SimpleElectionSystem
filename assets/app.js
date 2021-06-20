@@ -15,5 +15,6 @@ function submitVotes(){
 		res+=cid+",";
 	}
 	console.log(res);
-	alert("Your selected candidates are "+res);
+	document.getElementById('election-list').value=res;
+	document.getElementById('elecform').submit();
 }
