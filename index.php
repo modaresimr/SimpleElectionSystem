@@ -13,7 +13,7 @@ $mysqli = new mysqli($servername, $username, $password, $dbname);
 function myDie($txt){
 	global $mysqli;
 	$mysqli->close();
-	die();
+	die($txt);
 	return true;
 }
 function lockVoter($id){
@@ -48,10 +48,10 @@ if (empty ($_GET["Key"])) return myDie("Error: Key should note be empty ");
 $voteKey=$mysqli->real_escape_string($_GET["Key"]);
 	
 $result = $mysqli->query("SELECT * FROM Voters where VoteKey=".$voteKey);
-if ($result->num_rows == 0) return myDie("Error: Your vote token is invalid");
+if (!$result || $result->num_rows == 0) return myDie("Error: Your vote token is invalid");
 
 $result = $mysqli->query("SELECT * FROM Voters where Voted=1 and VoteKey=". $voteKey );
-if ($result->num_rows == 0) return myDie("Error: You have voted.");
+if (!$result||$result->num_rows == 0) return myDie("Error: You have voted.");
 $voter=$result->fetch_assoc()["ID"];
 
 
@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	$mysqli->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
 	try{
-		if($mysqli->query("UPDATE Candidate set Voted=1 where Voted=0 and Voter=".$voter)!==TRUE || $mysqli->affected_rows!=1)
+		if(!$mysqli->query("UPDATE Candidate set Voted=1 where Voted=0 and Voter=".$voter)!==TRUE || $mysqli->affected_rows!=1)
 			throw new Exception('Voted.');
 		if($mysqli->query("INSERT INTO Votes (date,secret) VALUES(".date('Y-m-d H:i:s').",".$secret_code.")")!==TRUE)
 			throw new Exception('Error.');
