@@ -18,8 +18,8 @@ function myDie($txt){
 }
 function lockVoter($id){
 	global $memcache;
-	$memcache = new Memcache;
-	$memcache->connect('localhost', 11211);
+	$memcache = new Memcached;
+	$memcache->addServer('localhost', 11211);
 	try{
 		$memcache->add("voter:" . $id, "1",0,30);//thread safe
 		return true;
@@ -59,11 +59,11 @@ if (!$result||$result->num_rows == 0) return myDie("Error: You have voted.");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$votes = array_map(function($v){ return (int) trim($v, "'"); }, explode(",", $_POST['votes']));
 	$secret_code=generateRandomString();
-	if(!lockVoter($voter)) return myDie("Another request is in processing! please wait for 30 seconds and retry!");
+	if(!lockVoter($voterKey)) return myDie("Another request is in processing! please wait for 30 seconds and retry!");
 
 	$mysqli->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
 	try{
-		if(!$mysqli->query("UPDATE Voter set Done=1 where Done=0 and VoterKey='".$voter."'")!==TRUE || $mysqli->affected_rows!=1)
+		if($mysqli->query("UPDATE Voter set Done=1 where Done=0 and VoterKey='".$voterKey."'")!==TRUE || $mysqli->affected_rows!=1)
 			throw new Exception('Voted.');
 		if($mysqli->query("INSERT INTO Votes (date,secret) VALUES('" .date('Y-m-d H:i:s'). "','".$secret_code."')")!==TRUE)
 			throw new Exception('Error.');
@@ -78,11 +78,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		if(!$mysqli->query("UPDATE Voter set Done=2 where Done=1 and VoterKey='".$voter."'")!==TRUE || $mysqli->affected_rows!=1)
 			throw new Exception('Voting Error.');
 		$mysqli->commit();
-		unlockVoter($voter);
+		unlockVoter($voterKey);
 		return myDie("Your votes is recorded! To verify your choises, you can use your secret anynomous code:". $secret_code);
 	} catch (exception $exception) {
 		$mysqli->rollback();
-		unlockVoter($voter);
+		unlockVoter($voterKey);
 		throw $exception;
 	}
 
