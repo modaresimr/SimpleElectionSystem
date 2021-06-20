@@ -1,0 +1,17 @@
+body {
+	font-family: Helvetica Neue, Helvetica, Arial;
+	
+	margin-left: auto;
+    margin-right: auto;
+	margin-top:auto;
+	margin-bottom:auto;
+	max-width:640px;
+}
+
+.list-group-item {
+    background-color: #c2ddf6;
+}
+.list-group-item:hover{
+	background: #689bcb;
+	cursor:pointer;
+}

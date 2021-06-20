@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="icon" type="image/png" href="st/og-image.png">
+	<title>SortableJS</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="assets/theme.css">
+
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	
+</head>
+<body>
+
+	
+		<div class="row">
+			<h2 class="col-12">Please drag and drop to select your preferences</h2>
+		</div>
+		<hr />
+		<div id="list" class="row">
+			<h4 class="col-12">Your preferences</h4>
+			<div id="election-list" class="list-group col">
+				<div class="list-group-item" candidateId="1" ><i class="fas fa-arrows-alt handle"></i> Candidate 1</div>
+				<div class="list-group-item" candidateId="2"><i class="fas fa-arrows-alt handle"></i> Candidate 2</div>
+				<div class="list-group-item" candidateId="3"><i class="fas fa-arrows-alt handle"></i> Candidate 3</div>
+				<div class="list-group-item" candidateId="4"><i class="fas fa-arrows-alt handle"></i> Candidate 4</div>
+				<div class="list-group-item" candidateId="5"><i class="fas fa-arrows-alt handle"></i> Candidate 5</div>
+			</div>
+		</div>
+		<hr />
+		<div class="row">
+	<div class="btn btn-primary" onclick="submitVotes()">Submit Your Vote</div>
+	</div>
+	<!-- Latest Sortable -->
+	<script src="assets/Sortable.js"></script>
+
+
+	<script src="assets/app.js"></script>
+</body>
+</html>
