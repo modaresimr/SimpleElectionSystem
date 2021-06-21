@@ -106,7 +106,7 @@ function sendEmail($to,$subject,$body){
     $mail->addAddress($to);     //Add a recipient
     
     if(!$mail->send()){
-        echo "Mailer Error: " . $mail->ErrorInfo;
+        throw new Exception("Mailer Error: " . $mail->ErrorInfo);
     }
 
 }
