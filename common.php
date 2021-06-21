@@ -15,10 +15,9 @@ function myheader(){
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		<link rel="icon" type="image/png" href="st/og-image.png">
 		<title>RoboCup Election</title>
-		<link rel="stylesheet" href="assets/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-		<link rel="stylesheet" href="assets/font-awesome-all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="assets/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="assets/font-awesome/all.css">
 		<link rel="stylesheet" type="text/css" href="assets/theme.css?v1.1">
 
 		<meta charset="utf-8"/>
