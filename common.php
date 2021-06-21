@@ -17,9 +17,9 @@ function myheader(){
 
 		<link rel="icon" type="image/png" href="st/og-image.png">
 		<title>RoboCup Election</title>
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-		<link rel="stylesheet" type="text/css" href="assets/theme.css?v1">
+		<link rel="stylesheet" href="assets/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+		<link rel="stylesheet" href="assets/font-awesome-all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="assets/theme.css?v1.1">
 
 		<meta charset="utf-8"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -41,13 +41,13 @@ $mysqli = new mysqli($servername, $username, $password, $dbname);
 function myDie($txt,$class){
 	global $mysqli;
 	$mysqli->close();
-	header();
+	myheader();
 	?>
 		<div class="row">
 			<div class="alert alert-<?echo $class;?> col-12"><?php echo $txt;?></div>
 		</div>
     <?php
-    footer();
+    myfooter();
 	die();
 	return true;
 }

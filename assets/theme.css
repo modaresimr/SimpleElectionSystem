@@ -1,10 +1,8 @@
 body {
-	font-family: Helvetica Neue, Helvetica, Arial;
-	
+	font-family: Helvetica Neue, Helvetica, Arial;	
 	margin-left: auto;
-    margin-right: auto;
-	margin-top:auto;
-	margin-bottom:auto;
+        margin-right: auto;
+	margin-top:100px;
 	max-width:640px;
 }
 
