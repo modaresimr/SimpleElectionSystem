@@ -78,7 +78,7 @@ if (!$result||$result->num_rows == 0) return myDie("Error: in aggregating votes.
 				}
 			
 							  
-				echo '<div class="list-group-item d-flex justify-content-between align-items-center col-12" >'.$row["Name"]. 'badge bg-primary rounded-pill' .$row['count'].'</span></div>';	
+				echo '<div class="list-group-item d-flex justify-content-between align-items-center col-12" >'.$row["Name"]. '<span class="badge bg-primary rounded-pill">' .$row['count'].'</span></div>';	
 			  }
 
 			?>
