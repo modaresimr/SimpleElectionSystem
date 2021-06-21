@@ -8,7 +8,7 @@ $username = $_ENV["SQL_USERNAME"];
 $password = $_ENV["SQL_PASSWORD"];
 $dbname = $_ENV["SQL_DB"];
 
-function header(){
+function myheader(){
     ?>
 	<!DOCTYPE html>
 	<html>
@@ -28,7 +28,7 @@ function header(){
 	<body>	
     <?php
 }
-function footer(){
+function myfooter(){
     ?>
 	<script src="assets/Sortable.js"></script>
 	<script src="assets/app.js?v1.1"></script>

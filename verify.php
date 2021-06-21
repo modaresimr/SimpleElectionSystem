@@ -12,7 +12,7 @@ $result = $mysqli->query("SELECT * FROM Votes as v,VoteDetails as d,Candidates a
 if (!$result||$result->num_rows == 0) return myDie("Error: No Vote registered.",'danger');
 
 
-header();
+myheader();
 ?>
 		<hr />
 		<div id="list" class="row">
@@ -34,5 +34,5 @@ header();
 	</div>
 	
 <?php
-footer();
+myfooter();
 ?>

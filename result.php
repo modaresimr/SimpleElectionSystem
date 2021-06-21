@@ -22,7 +22,7 @@ $result = $mysqli->query("SELECT d.Preference, c.Name,count(*) as count FROM Vot
 if (!$result||$result->num_rows == 0) return myDie("Error 4: in aggregating votes.",'danger');
 
 
-header();
+myheader();
 ?>
 	
 		<hr />
@@ -53,5 +53,5 @@ header();
 	</div>
 	
 <?php
-footer();
+myfooter();
 ?>
