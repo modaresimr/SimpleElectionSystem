@@ -74,11 +74,11 @@ if (!$result||$result->num_rows == 0) return myDie("Error: in aggregating votes.
 			while($row = $result->fetch_assoc()) {
 				if($choice!==$row['Preference']){
 					$choice=$row['Preference'];
-					echo '<h4 class="col-12">Choice '.$choice . '</h4><hr/>';
+					echo '<hr/><h4 class="col-12">Choice '.$choice . '</h4>';
 				}
 			
 							  
-				echo '<div class="row"><div class="list-group-item col-9" >'.$row["Name"]. '</div><div class="list-group-item col-3">'.$row['count'].'</div></div>';	
+				echo '<div class="list-group-item d-flex justify-content-between align-items-center col-12" >'.$row["Name"]. 'badge bg-primary rounded-pill' .$row['count'].'</span></div>';	
 			  }
 
 			?>
