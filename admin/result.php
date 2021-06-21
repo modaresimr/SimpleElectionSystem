@@ -1,5 +1,5 @@
 <?php
-include_once('common.php');
+include_once('../common.php');
 
 // $result = $mysqli->query("SELECT * FROM Configs where name='is_open'");
 // if (!$result || $result->num_rows == 0) return myDie("Error: No config");
