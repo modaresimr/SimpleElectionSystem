@@ -37,7 +37,7 @@ if (!$result || $result->num_rows == 0) return myDie("Error: No Votes");
 $vote_counts=$result->fetch_assoc()['count'];
 
 
-$result = $mysqli->query("SELECT d.Preference, c.Name,count(*) FROM Votes as v,VoteDetails as d,Candidates as c where v.ID=d.VoteID and c.ID=d.candidateID group by d.Preference, c.Name ORDER BY d.preference ASC,count(*) DESC" );
+$result = $mysqli->query("SELECT d.Preference, c.Name,count(*) as count FROM Votes as v,VoteDetails as d,Candidates as c where v.ID=d.VoteID and c.ID=d.candidateID group by d.Preference, c.Name ORDER BY d.preference ASC,count(*) DESC" );
 if (!$result||$result->num_rows == 0) return myDie("Error: in aggregating votes.");
 
 
@@ -69,11 +69,12 @@ if (!$result||$result->num_rows == 0) return myDie("Error: in aggregating votes.
 			$choice=0;
 			while($row = $result->fetch_assoc()) {
 				if($choice!==$row['Preference']){
+					$choice=$row['Preference'];
 					echo '<h4 class="col-12">Choice '.$choice . '</h4><hr/>';
 				}
 			
 							  
-				echo '<div class="list-group-item col-6" >'.$row["Name"]. '</div><div class="list-group-item col-6">'.$row['count'].'</div>';	
+				echo '<div class="row"><div class="list-group-item col-9" >'.$row["Name"]. '</div><div class="list-group-item col-3">'.$row['count'].'</div></div>';	
 			  }
 
 			?>
