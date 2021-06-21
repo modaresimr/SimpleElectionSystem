@@ -62,7 +62,7 @@ myheader();
 			<h4 class="col-12">Your preferences</h4>
 			<div id="election-list" class="list-group col">
 			<?php
-			$result = $mysqli->query("SELECT * FROM Candidates");
+			$result = $mysqli->query("SELECT * FROM Candidates ORDER BY RAND();");
 
 			  // output data of each row
 			  while($row = $result->fetch_assoc()) {
