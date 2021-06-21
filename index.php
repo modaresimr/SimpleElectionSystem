@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		if(!$mysqli->commit())
 			throw new Exception($mysqli->error);
 		unlockVoter($voterKey);
-		return myDie("Your votes is recorded! Please keep safe your anynomous secret code.</br> To verify your choices and check if your vote is counted, you can use this secret code: <a href='verify.php?secret=". $secret_code . "'>".$secret_code."</a>",'success');
+		return myDie("Your votes is recorded! Please keep safe your anynomous secret code. <a href='verify.php?secret=". $secret_code . "'>".$secret_code."</a></br> The secret code is usable for you and you can use it to verify your vote and make sure that your vote is counted. ",'success');
 	} catch (exception $exception) {
 		$mysqli->rollback();
 		unlockVoter($voterKey);
