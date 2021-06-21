@@ -25,12 +25,13 @@ if (!$result||$result->num_rows == 0) return myDie("Error 4: in aggregating vote
 myheader();
 ?>
 	
-		<hr />
+		
 		<div class="row">
 			Total Voters= <?php echo $voter_counts;?><br/>
 			Total Sent Votes= <?php echo $sent_vote_counts;?><br/>
 			Total Received Votes= <?php echo $vote_counts;?><br/>
 		</div>
+		<hr />
 		<div id="list" class="row">
 		<div id="election-list-fix" class="list-group col">
 		<?php
