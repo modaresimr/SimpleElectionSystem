@@ -2,6 +2,11 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+include 'PHPMailer/PHPMailer.php';
+include 'PHPMailer/SMTP.php';
+include 'PHPMailer/Exception.php';
 
 $servername = $_ENV["SQL_HOST"];
 $username = $_ENV["SQL_USERNAME"];
@@ -76,7 +81,35 @@ function generateRandomString($length = 20) {
     }
     return $randomString;
 }
+function sendEmail($to,$subject,$body){
+    
+    $mail = new PHPMailer();
 
+    // Settings
+    $mail->IsSMTP();
+    $mail->CharSet = 'UTF-8';
+    
+    $mail->Host       = $_ENV['MAIL_HOST'];    // SMTP server example
+    $mail->SMTPDebug  = 0;                     // enables SMTP debug information (for testing)
+    $mail->SMTPAuth   = true;                  // enable SMTP authentication
+    $mail->Port       = $_ENV['MAIL_PORT'];                    // set the SMTP port for the GMAIL server
+    $mail->Username   = $_ENV['MAIL_USERNAME'];            // SMTP account username example
+    $mail->Password   = $_ENV['MAIL_PASSWORD'];            // SMTP account password example
+    
+    // Content
+    $mail->isHTML(true);                       // Set email format to HTML
+    $mail->Subject = $subject;
+    $mail->Body    = $body;
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+    $mail->Port       = 587;       
+    $mail->setFrom($_ENV['MAIL_USERNAME'], 'RoboCup Election');
+    $mail->addAddress($to);     //Add a recipient
+    
+    if(!$mail->send()){
+        echo "Mailer Error: " . $mail->ErrorInfo;
+    }
+
+}
 // Check connection
 if ($mysqli->connect_error) return myDie("Error: Connection failed: " . $mysqli->connect_error,'danger');
 

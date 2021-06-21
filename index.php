@@ -17,9 +17,12 @@ if (!$result||$result->num_rows == 0) return myDie("Error: You have voted.",'war
 
 
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$votes = array_map(function($v){ return (int) trim($v, "'"); }, explode(",", $_POST['votes']));
 	$secret_code=generateRandomString();
+	$voter_email=$result->fetch_assoc();
+
 	if(!lockVoter($voterKey)) return myDie("Another request is in processing! please wait for 30 seconds and retry!",'danger');
 	mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 	$mysqli->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
@@ -41,6 +44,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		if(!$mysqli->commit())
 			throw new Exception($mysqli->error);
 		unlockVoter($voterKey);
+		$body="Your vote is recorded! Please keep safe your anonymous secret code. <a href='verify.php?secret=". $secret_code . "'>".$secret_code."</a></br> The secret code is usable only for you and you can use it to verify your vote and make sure that your vote is counted. ";
+		sendEmail($voter_email,"Your vote is recorded",$body);
 		return myDie("Your vote is recorded! Please keep safe your anonymous secret code. <a href='verify.php?secret=". $secret_code . "'>".$secret_code."</a></br> The secret code is usable only for you and you can use it to verify your vote and make sure that your vote is counted. ",'success');
 	} catch (exception $exception) {
 		$mysqli->rollback();
