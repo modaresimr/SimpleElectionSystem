@@ -21,9 +21,9 @@ function myheader(){
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 		<title>RoboCup Election</title>
-		<link rel="stylesheet" type="text/css" href="assets/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="assets/font-awesome/all.css">
-		<link rel="stylesheet" type="text/css" href="assets/theme.css?v1.1">
+		<link rel="stylesheet" type="text/css" href="/assets/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="/assets/font-awesome/all.css">
+		<link rel="stylesheet" type="text/css" href="/assets/theme.css?v1.1">
 
 		<meta charset="utf-8"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -34,8 +34,8 @@ function myheader(){
 }
 function myfooter(){
     ?>
-	<script src="assets/Sortable.js"></script>
-	<script src="assets/app.js?v1.1"></script>
+	<script src="/assets/Sortable.js"></script>
+	<script src="/assets/app.js?v1.1"></script>
     </body>
 	</html>
     <?php
