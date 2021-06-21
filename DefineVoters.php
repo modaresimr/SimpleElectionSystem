@@ -1,7 +1,7 @@
 <?php
 include_once('common.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	if($_POST['DoAll']){
+	if(isset($_POST['DoAll'])){
 		$emails=preg_split('/(\s|,|;)+/',$_POST['emails']);
 		foreach($emails as $k=>$email){
 			$result=$mysqli->query("delete from Voters;");
@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			if ($result !== TRUE) return myDie('Error in registering emails.','danger');
 		}
 	}
-	if($_POST['SendEmail']){
+	if(isset($_POST['SendEmail'])){
 		$result = $mysqli->query("SELECT * FROM Voters where EmailSent=0;");
 		while($row = $result->fetch_assoc()) {
 			try{
@@ -45,7 +45,7 @@ myheader();
 			$result = $mysqli->query("SELECT * FROM Voters;");
 			  // output data of each row
 			  while($row = $result->fetch_assoc()) {
-				echo '<div class="list-group-item" >'.$row["Email"].' : Sent='.$row["EmailSent"].' : <a href="https://election.h2.robocup.org/?Key='.$row["VoterKey"].'"> https://election.h2.robocup.org/?Key='.$row["VoterKey"].'</div>';	
+				echo '<div class="list-group-item" >'.$row["Email"].' : Sent='.$row["EmailSent"].' : <a href="https://election.h2.robocup.org/?Key='.$row["VoterKey"].'"> https://election.h2.robocup.org/?Key='.$row["VoterKey"].'</a></div>';	
 			  }
 
 			?>
