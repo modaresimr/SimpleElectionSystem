@@ -30,7 +30,7 @@ $voter_counts=$result->fetch_assoc()['count'];
 
 $result = $mysqli->query("SELECT count(*) as count FROM Voters where Done=1");
 if (!$result || $result->num_rows == 0) return myDie("Error: No Voters");
-$real_voter_counts=$result->fetch_assoc()['count'];
+$sent_vote_counts=$result->fetch_assoc()['count'];
 
 $result = $mysqli->query("SELECT count(*) as count FROM Votes");
 if (!$result || $result->num_rows == 0) return myDie("Error: No Votes");
@@ -62,7 +62,11 @@ if (!$result||$result->num_rows == 0) return myDie("Error: in aggregating votes.
 
 	
 		<hr />
-
+		<div class="row">
+			Total Voters= <?php echo $voter_counts;?><br/>
+			Total Sent Votes= <?php echo $sent_vote_counts;?><br/>
+			Total Received Votes= <?php echo $vote_counts;?><br/>
+		</div>
 		<div id="list" class="row">
 		<div id="election-list-fix" class="list-group col">
 		<?php
