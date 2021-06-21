@@ -1,5 +1,6 @@
 <?php
 include_once('common.php');
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if(isset($_POST['DoAll'])){
 		$emails=preg_split('/(\s|,|;)+/',$_POST['emails']);
