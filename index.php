@@ -43,6 +43,9 @@ function generateRandomString($length = 20) {
 // Check connection
 if ($mysqli->connect_error) return myDie("Error: Connection failed: " . $mysqli->connect_error);
 
+// $result = $mysqli->query("SELECT * FROM Configs where name='is_open'");
+// if (!$result || $result->num_rows == 0) return myDie("Error: No config");
+// if ($result['Value']!=='1') return myDie("Error: poll is not active");
 
 if (empty ($_GET["Key"])) return myDie("Error: Key should note be empty ");
 $voterKey=$mysqli->real_escape_string($_GET["Key"]);

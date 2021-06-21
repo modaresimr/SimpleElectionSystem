@@ -59,8 +59,8 @@ if (!$result||$result->num_rows == 0) return myDie("Error: No Vote registered.")
 
 			  // output data of each row
 			  while($row = $result->fetch_assoc()) {
-				  var_dump($row);
-				echo '<div class="list-group-item" candidateId="'.$row["ID"].'" ><i class="fas fa-arrows-alt handle"></i> '.$row["Name"].'</div>';	
+				  
+				echo '<div class="list-group-item" >'.$row["Name"].'</div>';	
 			  }
 
 			?>
