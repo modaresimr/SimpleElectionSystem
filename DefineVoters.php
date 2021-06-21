@@ -10,11 +10,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			if ($result !== TRUE) return myDie('Can not remove old votes. '.$mysqli->error,'danger');
 
 			$sql = "INSERT INTO Voters (VoterKey, Email) VALUES ";
-			$sql .= implode(',',array_map(function ($email) { global $voteid; return "(".(generateRandomString(40)) .",". $email.")"; }, $emails));
+			$sql .= implode(',',array_map(function ($email) { global $voteid; return "('".(generateRandomString(40)) ."','". $email."')"; }, $emails));
 			$sql .=";";
 			$result=$mysqli->query($sql);
 			
-			if ($result !== TRUE) return myDie('Error in registering emails.','danger');
+			if ($result !== TRUE) return myDie('Error in registering emails.'.$mysqli->error,'danger');
 		}
 	}
 	if(isset($_POST['SendEmail'])){
