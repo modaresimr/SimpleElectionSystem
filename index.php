@@ -44,9 +44,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		if(!$mysqli->commit())
 			throw new Exception($mysqli->error);
 		unlockVoter($voterKey);
-		$body="Your vote is recorded! Please keep safe your anonymous secret code. <a href='verify.php?secret=". $secret_code . "'>".$secret_code."</a></br> The secret code is usable only for you and you can use it to verify your vote and make sure that your vote is counted. ";
+		$body="Your vote is recorded! Please keep safe your anonymous secret code. <a href='https://election.h2.robocup.org/verify.php?secret=". $secret_code . "'>".$secret_code."</a></br> The secret code is usable only for you and you can use it to verify your vote and make sure that your vote is counted. ";
 		sendEmail($voter_email,"Your vote is recorded",$body);
-		return myDie("Your vote is recorded! Please keep safe your anonymous secret code. <a href='verify.php?secret=". $secret_code . "'>".$secret_code."</a></br> The secret code is usable only for you and you can use it to verify your vote and make sure that your vote is counted. ",'success');
+		return myDie("Your vote is recorded! Please keep safe your anonymous secret code. <a href='https://election.h2.robocup.org/verify.php?secret=". $secret_code . "'>".$secret_code."</a></br> The secret code is usable only for you and you can use it to verify your vote and make sure that your vote is counted. ",'success');
 	} catch (exception $exception) {
 		$mysqli->rollback();
 		unlockVoter($voterKey);

@@ -51,14 +51,15 @@ myheader();
 			?>
 			</div>
 		</div>
-<?php
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-?>
+		
 		<hr />
 
 		<form method="post">			
-				<input type="submit" name="SendEmail" class="btn btn-primary" value="Send Email if it is not sent"/>
+				<input type="submit" name="SendEmail" class="btn btn-primary" value="Send Emails - Will not send email if it is already sent!"/>
 		</form>
+<?php
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+?>
 		<div id="list" class="row">
 			
 			<div id="election-list-fix" class="list-group col">
@@ -68,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 				<textarea name="emails" rows=20 class="form-control col-12"></textarea>
 			</div>
-				<input type="submit" name="DoAll" class="btn btn-primary" value="Remove Old Voters, Create Vote Token and Send Email"/>
+				<input type="submit" name="DoAll" class="btn btn-primary" value="Remove Old Voters, Create Vote Token"/>
 			</form>
 			</div>
 		</div>
