@@ -1,68 +1,26 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-$servername = $_ENV["SQL_HOST"];
-$username = $_ENV["SQL_USERNAME"];
-$password = $_ENV["SQL_PASSWORD"];
-$dbname = $_ENV["SQL_DB"];
-
-// Create connection
-$mysqli = new mysqli($servername, $username, $password, $dbname);
-function myDie($txt){
-	global $mysqli;
-	$mysqli->close();
-	die($txt);
-	return true;
-}
-function lockVoter($id){
-	global $memcache;
-	$memcache = new Memcached;
-	$memcache->addServer('localhost', 11211);
-	try{
-		$memcache->add("voter:" . $id, "1",30);//thread safe
-		return true;
-	}catch(Exception $e){
-		return false;
-	}
-}
-function unlockVoter($id){
-	global $memcache;
-	$memcache->delete("voter:" . $id);
-}
-function generateRandomString($length = 20) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $charactersLength = strlen($characters);
-    $randomString = '';
-    for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[rand(0, $charactersLength - 1)];
-    }
-    return $randomString;
-}
-// Check connection
-if ($mysqli->connect_error) return myDie("Error: Connection failed: " . $mysqli->connect_error);
+include_once('common.php');
 
 // $result = $mysqli->query("SELECT * FROM Configs where name='is_open'");
 // if (!$result || $result->num_rows == 0) return myDie("Error: No config");
 // if ($result['Value']!=='1') return myDie("Error: poll is not active");
 
-if (empty ($_GET["Key"])) return myDie("Error: Key should note be empty ");
+if (empty ($_GET["Key"])) return myDie("Error: Key should note be empty ",'danger');
 $voterKey=$mysqli->real_escape_string($_GET["Key"]);
 	
 $result = $mysqli->query("SELECT * FROM Voters where VoterKey='".$voterKey."'");
-if (!$result || $result->num_rows == 0) return myDie("Error: Your vote token is invalid");
+if (!$result || $result->num_rows == 0) return myDie("Error: Your vote token is invalid",'danger');
 
 
 $result = $mysqli->query("SELECT * FROM Voters where Done=0 and VoterKey='". $voterKey ."'" );
-if (!$result||$result->num_rows == 0) return myDie("Error: You have voted.");
+if (!$result||$result->num_rows == 0) return myDie("Error: You have voted.",'warning');
 
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$votes = array_map(function($v){ return (int) trim($v, "'"); }, explode(",", $_POST['votes']));
 	$secret_code=generateRandomString();
-	if(!lockVoter($voterKey)) return myDie("Another request is in processing! please wait for 30 seconds and retry!");
+	if(!lockVoter($voterKey)) return myDie("Another request is in processing! please wait for 30 seconds and retry!",'danger');
 	mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 	$mysqli->begin_transaction(MYSQLI_TRANS_START_READ_WRITE);
 	try{
@@ -83,11 +41,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		if(!$mysqli->commit())
 			throw new Exception($mysqli->error);
 		unlockVoter($voterKey);
-		return myDie("Your votes is recorded! To verify your choices and check if your vote is counted, you can use this secret code: <a href='verify.php?secret=". $secret_code . "'>".$secret_code."</a>");
+		return myDie("Your votes is recorded! To verify your choices and check if your vote is counted, you can use this secret code: <a href='verify.php?secret=". $secret_code . "'>".$secret_code."</a>",'success');
 	} catch (exception $exception) {
 		$mysqli->rollback();
 		unlockVoter($voterKey);
-		throw $exception;
+		myDie($exception,'danger');
 	}
 
 }
@@ -141,6 +99,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<script src="assets/Sortable.js"></script>
 
 
-	<script src="assets/app.js?v1"></script>
+	<script src="assets/app.js?v1.1"></script>
 </body>
 </html>

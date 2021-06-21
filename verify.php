@@ -1,34 +1,15 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+include_once('common.php');
 
-$servername = $_ENV["SQL_HOST"];
-$username = $_ENV["SQL_USERNAME"];
-$password = $_ENV["SQL_PASSWORD"];
-$dbname = $_ENV["SQL_DB"];
-
-// Create connection
-$mysqli = new mysqli($servername, $username, $password, $dbname);
-function myDie($txt){
-	global $mysqli;
-	$mysqli->close();
-	die($txt);
-	return true;
-}
-// Check connection
-if ($mysqli->connect_error) return myDie("Error: Connection failed: " . $mysqli->connect_error);
-
-
-if (empty ($_GET["secret"])) return myDie("Error: Secret should note be empty ");
+if (empty ($_GET["secret"])) return myDie("Error: Secret should note be empty ",'danger');
 $secret=$mysqli->real_escape_string($_GET["secret"]);
 	
 $result = $mysqli->query("SELECT * FROM Votes where Secret='".$secret."'");
-if (!$result || $result->num_rows == 0) return myDie("Error: Your secret token is invalid");
+if (!$result || $result->num_rows == 0) return myDie("Error: Your secret token is invalid",'danger');
 $voteid=$result->fetch_assoc()['ID'];
 
 $result = $mysqli->query("SELECT * FROM Votes as v,VoteDetails as d,Candidates as c where v.ID=d.VoteID and c.ID=d.candidateID and v.Secret='".$secret."' order by d.Preference" );
-if (!$result||$result->num_rows == 0) return myDie("Error: No Vote registered.");
+if (!$result||$result->num_rows == 0) return myDie("Error: No Vote registered.",'danger');
 
 
 
@@ -40,8 +21,8 @@ if (!$result||$result->num_rows == 0) return myDie("Error: No Vote registered.")
 
 	<link rel="icon" type="image/png" href="st/og-image.png">
 	<title>RoboCup Election</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+	<link rel="stylesheet" href="assets/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	<link rel="stylesheet" href="assets/font-awesome-all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="assets/theme.css">
 
 	<meta charset="utf-8"/>
@@ -71,6 +52,6 @@ if (!$result||$result->num_rows == 0) return myDie("Error: No Vote registered.")
 	</div>
 	
 
-	<script src="assets/app.js?v1"></script>
+	<script src="assets/app.js?v1.1"></script>
 </body>
 </html>

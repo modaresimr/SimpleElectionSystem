@@ -8,13 +8,15 @@ new Sortable(list, {
 
 
 function submitVotes(){
-	var childs=list.children;
-	var res=[];
-	for (var i = 0; i<childs.length;i++){
-		var cid=childs[i].getAttribute('candidateId');
-		res.push(cid);
+	if(confirm("Are you sure to submit your votes?")){
+		var childs=list.children;
+		var res=[];
+		for (var i = 0; i<childs.length;i++){
+			var cid=childs[i].getAttribute('candidateId');
+			res.push(cid);
+		}
+		console.log(res);
+		document.getElementById('votes').value=res.join();
+		document.getElementById('elecform').submit();
 	}
-	console.log(res);
-	document.getElementById('votes').value=res.join();
-	document.getElementById('elecform').submit();
 }
