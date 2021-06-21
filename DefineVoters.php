@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$result=$mysqli->query("delete from Votes;");
 			if ($result !== TRUE) return myDie('Can not remove old votes. '.$mysqli->error,'danger');
 
-			$sql = "INSERT INTO Voters (VoteKey, Email) VALUES ";
+			$sql = "INSERT INTO Voters (VoterKey, Email) VALUES ";
 			$sql .= implode(',',array_map(function ($email) { global $voteid; return "(".(generateRandomString(40)) .",". $email.")"; }, $emails));
 			$sql .=";";
 			$result=$mysqli->query($sql);
@@ -21,9 +21,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$result = $mysqli->query("SELECT * FROM Voters where EmailSent=0;");
 		while($row = $result->fetch_assoc()) {
 			try{
-				sendEmail($row['Email'],"Your Vote Token","Please use the following link to vote: <a href='https://election.h2.robocup.org/?Key=".$row["VoteKey"]."'>https://election.h2.robocup.org/?Key=".$row["VoteKey"]."</a>");
+				sendEmail($row['Email'],"Your Vote Token","Please use the following link to vote: <a href='https://election.h2.robocup.org/?Key=".$row["VoterKey"]."'>https://election.h2.robocup.org/?Key=".$row["VoterKey"]."</a>");
 				echo "Email sent successfully to ".$row['Email'] . "</br>";
-				$mysqli->query("update Voters set EmailSent=1 where votekey='".$row["VoteKey"]."';");
+				$mysqli->query("update Voters set EmailSent=1 where VoterKey='".$row["VoterKey"]."';");
 			}catch(Exception $e){
 				echo "Error email to ".$row['Email'] . " : ".$e."</br>";
 			}
@@ -45,7 +45,7 @@ myheader();
 			$result = $mysqli->query("SELECT * FROM Voters;");
 			  // output data of each row
 			  while($row = $result->fetch_assoc()) {
-				echo '<div class="list-group-item" >'.$row["Email"].' : Sent='.$row["EmailSent"].' : <a href="https://election.h2.robocup.org/?Key='.$row["VoteKey"].'"> https://election.h2.robocup.org/?Key='.$row["VoteKey"].'</div>';	
+				echo '<div class="list-group-item" >'.$row["Email"].' : Sent='.$row["EmailSent"].' : <a href="https://election.h2.robocup.org/?Key='.$row["VoterKey"].'"> https://election.h2.robocup.org/?Key='.$row["VoterKey"].'</div>';	
 			  }
 
 			?>

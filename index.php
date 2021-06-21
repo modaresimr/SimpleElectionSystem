@@ -21,7 +21,7 @@ if (!$result||$result->num_rows == 0) return myDie("Error: You have voted.",'war
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$votes = array_map(function($v){ return (int) trim($v, "'"); }, explode(",", $_POST['votes']));
 	$secret_code=generateRandomString();
-	$voter_email=$result->fetch_assoc();
+	$voter_email=$result->fetch_assoc()['Email'];
 
 	if(!lockVoter($voterKey)) return myDie("Another request is in processing! please wait for 30 seconds and retry!",'danger');
 	mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
