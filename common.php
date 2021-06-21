@@ -32,7 +32,7 @@ function myDie($txt,$class){
 	<body>	
 		<hr />
 		<div class="row">
-			<div class="alert alert-<?echo $class;?>"><?php echo $txt;?></div>
+			<div class="alert alert-<?echo $class;?> col-12"><?php echo $txt;?></div>
 		</div>
 	</body>
 	</html>
