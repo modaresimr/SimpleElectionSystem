@@ -8,12 +8,8 @@ $username = $_ENV["SQL_USERNAME"];
 $password = $_ENV["SQL_PASSWORD"];
 $dbname = $_ENV["SQL_DB"];
 
-// Create connection
-$mysqli = new mysqli($servername, $username, $password, $dbname);
-function myDie($txt,$class){
-	global $mysqli;
-	$mysqli->close();
-	?>
+function header(){
+    ?>
 	<!DOCTYPE html>
 	<html>
 	<head>
@@ -23,21 +19,35 @@ function myDie($txt,$class){
 		<title>RoboCup Election</title>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-		<link rel="stylesheet" type="text/css" href="assets/theme.css">
+		<link rel="stylesheet" type="text/css" href="assets/theme.css?v1">
 
 		<meta charset="utf-8"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		
 	</head>
 	<body>	
-		<hr />
+    <?php
+}
+function footer(){
+    ?>
+	<script src="assets/Sortable.js"></script>
+	<script src="assets/app.js?v1.1"></script>
+    </body>
+	</html>
+    <?php
+}
+// Create connection
+$mysqli = new mysqli($servername, $username, $password, $dbname);
+function myDie($txt,$class){
+	global $mysqli;
+	$mysqli->close();
+	header();
+	?>
 		<div class="row">
 			<div class="alert alert-<?echo $class;?> col-12"><?php echo $txt;?></div>
 		</div>
-	</body>
-	</html>
-
-	<?php
+    <?php
+    footer();
 	die();
 	return true;
 }

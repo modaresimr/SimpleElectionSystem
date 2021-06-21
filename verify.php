@@ -12,26 +12,8 @@ $result = $mysqli->query("SELECT * FROM Votes as v,VoteDetails as d,Candidates a
 if (!$result||$result->num_rows == 0) return myDie("Error: No Vote registered.",'danger');
 
 
-
+header();
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-
-	<link rel="icon" type="image/png" href="st/og-image.png">
-	<title>RoboCup Election</title>
-	<link rel="stylesheet" href="assets/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-	<link rel="stylesheet" href="assets/font-awesome-all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="assets/theme.css">
-
-	<meta charset="utf-8"/>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-	
-</head>
-<body>
-
-	
 		<hr />
 		<div id="list" class="row">
 			<h4 class="col-12">Your preferences</h4>
@@ -51,7 +33,6 @@ if (!$result||$result->num_rows == 0) return myDie("Error: No Vote registered.",
 		
 	</div>
 	
-
-	<script src="assets/app.js?v1.1"></script>
-</body>
-</html>
+<?php
+footer();
+?>
