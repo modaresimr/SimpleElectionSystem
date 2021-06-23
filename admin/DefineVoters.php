@@ -3,7 +3,7 @@ include_once('../common.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if(isset($_POST['DoAll'])){
-		$emails=preg_split('/(\s|,|;)+/',$_POST['emails']);
+		$emails=preg_split('/(\s|;)+/',$_POST['emails']);
 		foreach($emails as $k=>$email){
 			$result=$mysqli->query("delete from Voters;");
 			if ($result !== TRUE) return myDie('Can not remove old voters'.$mysqli->error,'danger');
