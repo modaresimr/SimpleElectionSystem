@@ -23,19 +23,26 @@ function myheader(){
 		<title>RoboCup Election</title>
 		<link rel="stylesheet" type="text/css" href="/assets/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="/assets/font-awesome/all.css">
-		<link rel="stylesheet" type="text/css" href="/assets/theme.css?v1.1">
+		<link rel="stylesheet" type="text/css" href="/assets/theme.css?v1.2">
 
 		<meta charset="utf-8"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		
 	</head>
 	<body>	
+	<main role="main" class="container">
     <?php
 }
 function myfooter(){
     ?>
+	</main>
 	<script src="/assets/Sortable.js"></script>
 	<script src="/assets/app.js?v1.1"></script>
+	<footer class="footer">
+      <div class="container">
+	<span style="float:left;" class="text-muted"> © Copyright 2021, RoboCup Federation  </span>          <span style="float:right;">by Ali Modaresi</span>
+	      </div>
+    </footer>
     </body>
 	</html>
     <?php
@@ -105,7 +112,6 @@ function sendEmail($to,$subject,$body){
     $mail->setFrom($_ENV['MAIL_USERNAME'], 'RoboCup Election');
 	$emails=preg_split('/(,)+/',$to);
 	foreach ($emails as $k=>$to_email){
-		echo $to_email;
 		$mail->addAddress($to_email);     //Add a recipient
 	}
     
