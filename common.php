@@ -103,7 +103,11 @@ function sendEmail($to,$subject,$body){
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
     $mail->Port       = 587;       
     $mail->setFrom($_ENV['MAIL_USERNAME'], 'RoboCup Election');
-    $mail->addAddress($to);     //Add a recipient
+	$emails=preg_split('/(,)+/',$to);
+	foreach ($emails as $k=>$to_email){
+		echo $to_email;
+		$mail->addAddress($to_email);     //Add a recipient
+	}
     
     if(!$mail->send()){
         throw new Exception("Mailer Error: " . $mail->ErrorInfo);
