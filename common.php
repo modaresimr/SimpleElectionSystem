@@ -40,7 +40,7 @@ function myfooter(){
 	<script src="/assets/app.js?v1.1"></script>
 	<footer class="footer">
       <div class="container">
-	<span style="float:left;" class="text-muted"> © Copyright 2021, RoboCup Federation  </span>          <span style="float:right;">by Ali Modaresi</span>
+	<span style="float:left;" class="text-muted"> © Copyright 2021, RoboCup Federation  </span>          <span style="float:right;">by <a href="https://www.linkedin.com/in/ali-modaresi/">Ali Modaresi</a></span>
 	      </div>
     </footer>
     </body>
