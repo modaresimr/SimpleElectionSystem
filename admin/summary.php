@@ -1,8 +1,8 @@
 <?php
 include_once('common.php');
 
-$result1 = $mysqli->query("SELECT * FROM Votes order by rand()client_loop: send disconnect: Connection reset
-PS C:\Users\Ali> $result1->num_rows == 0) return myDie("Error: Your secret token is invalid",'danger');
+$result1 = $mysqli->query("SELECT * FROM Votes order by rand()");
+if(!$result1|| $result1->num_rows == 0) return myDie("Error: Your secret token is invalid",'danger');
 myheader();
 while ($vote=$result1->fetch_assoc()){
 $voteid=$vote['ID'];
